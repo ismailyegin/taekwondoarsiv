@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from sbs.Views import DashboardViews, AthleteViews, RefereeViews, ClubViews, CoachViews, DirectoryViews, UserViews, \
     CompetitionViews, AdminViews, HelpViews, PageViews, PreRegistration, ActivityView, ReferenceView, QuestionViews, \
-    LogViews, ProductView, Aktarma, ClaimView, PenalView,ArsivView
+    LogViews, ProductView, Aktarma, ClaimView, PenalView,ArsivView,EmployeView
 
 app_name = 'sbs'
 
@@ -553,6 +553,10 @@ urlpatterns = [
     url(r'arsiv/arsiv-klasorEkle/ajax/$', ArsivView.ajax_klasorAdd, name='evrak-klasor-ajax'),
     url(r'arsiv/arsiv-klasorguncelle/ajax/search$', ArsivView.ajax_klasor_update, name='evrak-klasor-ajax-update'),
     url(r'arsiv/arsiv-klasorguncelle/ajax/$', ArsivView.ajax_klasor_update_add, name='evrak-klasor-ajax-update-add'),
-
+# personeller
+    url(r'personel/birim-uyeleri/$', EmployeView.return_employes, name='birim-personelleri'),
+    url(r'personel/birim-uyesi-ekle/$', EmployeView.add_employe, name='birim-personel-ekle'),
+    url(r'personel/birim-uyesi-duzenle/(?P<pk>\d+)$', EmployeView.update_demploye,
+        name='birim-personel-duzenle'),
 
 ]

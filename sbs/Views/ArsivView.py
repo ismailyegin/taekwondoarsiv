@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
+from reportlab.lib.rparsexml import filenames
 from unicode_tr import unicode_tr
 
 from sbs.Forms.AbirimForm import AbirimForm
@@ -27,6 +28,10 @@ from sbs.models.Aevrak import Aevrak
 from sbs.models.Aklasor import Aklasor
 from sbs.models.CategoryItem import CategoryItem
 from sbs.services import general_methods
+
+
+
+
 
 
 @login_required
@@ -403,8 +408,8 @@ def arsiv_dosyaUpdate(request, pk):
                    'dosya': dosya,
                    'files': files,
                    'evraklist': evraklist,
-                   'back':geri,
-                   'forward':ileri,
+                   'back': geri,
+                   'forward': ileri,
                    })
 
 
@@ -645,8 +650,8 @@ def birimSearch(request):
         sirano = request.POST.get('klasorsirano')
         location = request.POST.get('klasorlocation')
         birim = request.POST.get('klasorbirim')
-        start=request.POST.get('klasorstartyear')
-        finish=request.POST.get('klasorfinishyear')
+        start = request.POST.get('klasorstartyear')
+        finish = request.POST.get('klasorfinishyear')
 
         # genel arama alani
         if request.POST.get('search'):
@@ -764,7 +769,7 @@ def birimSearch(request):
                       'units': units.distinct(),
                       'klasor': klasor.distinct(),
                       # 'files': dosyadizi,
-                      'dosya':dosya,
+                      'dosya': dosya,
                       'klasor_form': klasor_form,
                       'backdata': backdata,
                       'backsearch': backsearch,
@@ -993,8 +998,8 @@ def ajax_klasor_update(request):
                             'birim': klasor.birim.pk,
                             'name': klasor.name,
                             'sirano': klasor.sirano,
-                            'finish':klasor.finishyear,
-                             'start':klasor.startyear,
+                            'finish': klasor.finishyear,
+                            'start': klasor.startyear,
                             'status': 'Success',
                             'msg': 'Valid is  request'
 
@@ -1023,10 +1028,10 @@ def ajax_klasor_update_add(request):
                         klasor.location_id = request.POST.get('location')
                     if request.POST.get('birim'):
                         klasor.birim_id = request.POST.get('birim')
-                    if  request.POST.get('finish'):
-                        klasor.finishyear=request.POST.get('finish')
+                    if request.POST.get('finish'):
+                        klasor.finishyear = request.POST.get('finish')
                     if request.POST.get('start'):
-                        klasor.startyear=request.POST.get('start')
+                        klasor.startyear = request.POST.get('start')
 
                     klasor.save()
 
@@ -1036,8 +1041,8 @@ def ajax_klasor_update_add(request):
                             'name': klasor.name,
                             'birimpk': klasor.birim.pk,
                             'birimname': klasor.birim.name,
-                             'finish':klasor.finishyear,
-                             'start':klasor.startyear,
+                            'finish': klasor.finishyear,
+                            'start': klasor.startyear,
                             'status': 'Success',
                             'msg': 'İşlem Başari ile gerçekleşti'
 
@@ -1226,3 +1231,8 @@ def ajax_klasorAdd(request):
             })
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+
+
+

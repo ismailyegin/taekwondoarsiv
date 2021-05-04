@@ -11,7 +11,7 @@ class PersonForm(ModelForm):
                                      empty_label="Seçiniz",
                                      label="Uyruk*",
                                      initial=Nationnality.objects.filter(name="T.C.")[0] if Nationnality.objects.filter(name="T.C.") else None,
-                                     required=True,
+                                     required=False,
                                      widget=forms.Select(
                                          attrs={'class': 'form-control select2 select2-hidden-accessible',
                                                 'style': 'width: 100%; '}))
