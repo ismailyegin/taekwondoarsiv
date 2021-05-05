@@ -9,7 +9,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% load static %}
-    {% if aktif == "Arsiv" %}
+    {% if aktif == "Arsiv" or aktif == 'Personel' %}
         <link rel="shortcut icon" type="image/png" href="/demosbs/media/kobiltek.ico"/>
          <title>DİJİTAL ARSİV SİSTEMİ </title>
         {% else %}
@@ -251,7 +251,7 @@
 
                             {% elif aktif == "Hakem" %}
                                 <small> Hakem</small>
-                            {% elif aktif == "Arsiv" %}
+                            {% elif aktif == "Arsiv" or aktif == 'Personel' %}
                                 <small> Arsiv</small>
                             {% elif  aktif ==  "Admin" %}
                                 <small> Admin</small>
@@ -288,7 +288,7 @@
                         {% elif aktif == "Admin" %}
                             <a href="{% url "sbs:admin-profil-guncelle" %}"
                                class="btn btn-default btn-flat">Profil Bilgisi</a>
-                                                {% elif aktif == "Arsiv" %}
+                                                {% elif aktif == "Arsiv" or aktif == 'Personel' %}
                             <a href="{% url "sbs:admin-profil-guncelle" %}"
                                class="btn btn-default btn-flat">Profil Bilgisi</a>
 
@@ -336,7 +336,7 @@
         <a href="#" class="brand-link">
             <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo"
                  class="brand-image img-circle elevation-3" style="opacity: .8">
-            {% if aktif == "Arsiv" %}
+            {% if aktif == "Arsiv" or aktif == 'Personel' %}
                 <span class="brand-text white-30 font-weight-light"><small>DİJİTAL ARŞİV SİSTEMİ</small></span>
             {% else %}
                 <span class="brand-text font-weight-light">SPOR BİLGİ SİSTEMİ</span>
@@ -380,7 +380,7 @@
                                 </li>
                             {% endif %}
                         {% endfor %}
-                    {% elif aktif == 'Arsiv' %}
+                    {% elif aktif == 'Arsiv' or aktif == 'Personel' %}
                         {% for menu in arsivmenus %}
                             {% if menu.is_parent %}
                                 <li class="nav-item menu-is-opening menu-open">

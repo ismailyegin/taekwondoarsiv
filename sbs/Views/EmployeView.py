@@ -40,8 +40,12 @@ def return_employes(request):
             firstName = unicode_tr(user_form.cleaned_data['first_name']).upper()
             lastName = unicode_tr(user_form.cleaned_data['last_name']).upper()
             email = user_form.cleaned_data.get('email')
+            active = general_methods.controlGroup(request)
             if not (firstName or lastName or email):
-                members = Employe.objects.all()
+                if active != 'Personel':
+                    members = Employe.objects.all()
+                else:
+                    members=Employe.objects.filter(user=request.user)
             else:
                 query = Q()
                 if lastName:
@@ -50,7 +54,10 @@ def return_employes(request):
                     query &= Q(user__first_name__icontains=firstName)
                 if email:
                     query &= Q(user__email__icontains=email)
-                members = Employe.objects.filter(query)
+                if active != 'Personel':
+                    members = Employe.objects.filter(query)
+                else:
+                    members=Employe.objects.filter(user=request.user).filter(query)
     return render(request, 'personel/personelListesi.html', {'members': members, 'user_form': user_form})
 
 

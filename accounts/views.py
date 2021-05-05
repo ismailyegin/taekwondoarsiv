@@ -40,7 +40,23 @@ def index(request):
 
 def login(request):
     if request.user.is_authenticated is True:
-        return redirect('sbs:admin')
+        active = general_methods.controlGroup(request)
+        if active == 'KlupUye':
+            return redirect('sbs:kulup-uyesi')
+        elif active == 'Antrenor':
+            return redirect('sbs:antrenor')
+        elif active == 'Sporcu':
+            return redirect('sbs:sporcu')
+        elif active == 'Hakem':
+            return redirect('sbs:hakem')
+        elif active == 'Yonetim':
+            return redirect('sbs:federasyon')
+        elif active == 'Admin':
+            return redirect('sbs:admin')
+        elif active == 'Arsiv' or active == 'Personel':
+            return redirect('sbs:evrak-anasayfa')
+        else:
+            return redirect('accounts:logout')
 
     if request.method == 'POST':
 
@@ -76,7 +92,7 @@ def login(request):
 
             elif active == 'Admin':
                 return redirect('sbs:admin')
-            elif active == 'Arsiv':
+            elif active == 'Arsiv' or active == 'Personel':
                 return redirect('sbs:evrak-anasayfa')
             else:
                 return redirect('accounts:logout')

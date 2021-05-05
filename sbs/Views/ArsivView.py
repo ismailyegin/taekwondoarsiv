@@ -29,6 +29,8 @@ from sbs.models.Aklasor import Aklasor
 from sbs.models.CategoryItem import CategoryItem
 from sbs.services import general_methods
 
+from sbs.models.Employe import Employe
+
 @login_required
 def return_arsiv(request):
     perm = general_methods.control_access(request)
@@ -181,14 +183,24 @@ def arsiv_birimListesi(request):
     birimler = Abirim.objects.none()
     if request.method == 'POST':
         name = request.POST.get('name')
+        active = general_methods.controlGroup(request)
         if not (name):
-            birimler = Abirim.objects.filter()
+
+            if active != 'Personel':
+                birimler = Abirim.objects.all()
+            else:
+                birimler = Abirim.objects.filter(employe=Employe.objects.get(user=request.user))
+
 
         else:
             query = Q()
             if name:
                 query &= Q(name__icontains=name)
-            birimler = Abirim.objects.filter(query)
+
+            if active != 'Personel':
+                birimler = Abirim.objects.filter(query)
+            else:
+                birimler = Abirim.objects.filter(employe=Employe.objects.get(user=request.user)).filter(query)
 
     return render(request, 'arsiv/BirimList.html', {'birimler': birimler,
                                                     'birim_form': birim_form})
@@ -252,8 +264,12 @@ def arsiv_klasorler(request):
         sirano = request.POST.get('sirano')
         location = request.POST.get('location')
         birim = request.POST.get('birim')
+        active = general_methods.controlGroup(request)
         if not (name or sirano or location or birim):
-            klasor = Aklasor.objects.all()
+            if active != 'Personel':
+                klasor = Aklasor.objects.all()
+            else:
+                klasor =Aklasor.objects.filter(birim__employe=Employe.objects.get(user=request.user))
         else:
             query = Q()
             if name:
@@ -264,7 +280,12 @@ def arsiv_klasorler(request):
                 query &= Q(location__pk=int(location))
             if birim:
                 query &= Q(birim__pk=int(birim))
-            klasor = Aklasor.objects.filter(query)
+
+            if active != 'Personel':
+                klasor = Aklasor.objects.filter(query)
+            else:
+                klasor = Aklasor.objects.filter(birim__employe=Employe.objects.get(user=request.user)).filter(query)
+
 
     #
     # for item in klasor:
@@ -596,8 +617,14 @@ def arsiv_dosyalar(request):
         location = request.POST.get('location')
         birim = request.POST.get('birim')
         klasor = request.POST.get('klasor')
+        active = general_methods.controlGroup(request)
         if not (klasor or sirano or location or birim):
-            dosya = Adosya.objects.all()
+
+
+            if active != 'Personel':
+                dosya = Adosya.objects.all()
+            else:
+                dosya=Adosya.objects.filter(klasor__birim__employe=Employe.objects.get(user=request.user))
         else:
             query = Q()
             if klasor:
@@ -608,7 +635,10 @@ def arsiv_dosyalar(request):
                 query &= Q(klasor__location__pk=location)
             if birim:
                 query &= Q(klasor__birim__pk=birim)
-            dosya = Adosya.objects.filter(query)
+            if active != 'Personel':
+                dosya = Adosya.objects.filter(query)
+            else:
+                dosya=Adosya.objects.filter(klasor__birim__employe=Employe.objects.get(user=request.user)).filter(query)
 
     return render(request, 'arsiv/DosyaListesi.html', {'dosya': dosya,
                                                        'klasor_form': klasor_form,
@@ -617,6 +647,7 @@ def arsiv_dosyalar(request):
 
 
 def birimSearch(request):
+    active = general_methods.controlGroup(request)
     dosya = Adosya.objects.none()
     units = Abirim.objects.none()
     klasor = Aklasor.objects.none()
@@ -626,6 +657,10 @@ def birimSearch(request):
     backdata = None
     backsearch = None
 
+    employe=Employe.objects.none()
+    if active == 'Personel':
+        employe = Employe.objects.get(user=request.user)
+
     if request.method == 'POST':
         name = request.POST.get('klasorname')
         sirano = request.POST.get('klasorsirano')
@@ -634,26 +669,46 @@ def birimSearch(request):
         start = request.POST.get('klasorstartyear')
         finish = request.POST.get('klasorfinishyear')
 
+        dosyaparametre=AdosyaParametre.objects.none()
+
         # genel arama alani
         if request.POST.get('search'):
             search = unicode_tr(request.POST.get('search')).upper()
             backdata = search
             backsearch = "genelArama"
             # print('genel arama ')
-            units |= Abirim.objects.filter(name__icontains=search)
-            klasor |= Aklasor.objects.filter(name__icontains=search)
-            try:
-                dosya |= Adosya.objects.filter(sirano=search)
-            except:
-                print('Sayisal degil')
-            if klasor:
-                for item in klasor:
-                    units |= Abirim.objects.filter(pk=item.birim.pk)
-            if dosya:
-                for item in dosya:
-                    klasor |= Aklasor.objects.filter(pk=item.klasor.pk)
-                    units |= Abirim.objects.filter(pk=item.klasor.birim.pk)
-            dosyaparametre = AdosyaParametre.objects.filter(value__contains=search)
+            if active != 'Personel':
+                units |= Abirim.objects.filter(name__icontains=search)
+                klasor |= Aklasor.objects.filter(name__icontains=search)
+                try:
+                    dosya |= Adosya.objects.filter(sirano=search)
+                except:
+                    print('Sayisal degil')
+                if klasor:
+                    for item in klasor:
+                        units |= Abirim.objects.filter(pk=item.birim.pk)
+                if dosya:
+                    for item in dosya:
+                        klasor |= Aklasor.objects.filter(pk=item.klasor.pk)
+                        units |= Abirim.objects.filter(pk=item.klasor.birim.pk)
+                dosyaparametre = AdosyaParametre.objects.filter(value__contains=search)
+            else:
+                employe=Employe.objects.get(user=request.user)
+                units |= Abirim.objects.filter(employe=employe).filter(name__icontains=search)
+                klasor |= Aklasor.objects.filter(birim__employe=employe).filter(name__icontains=search)
+                try:
+                    dosya |= Adosya.objects.filter(klasor__birim__employe=employe).filter(sirano=search)
+                except:
+                    print('Sayisal degil')
+                if klasor:
+                    for item in klasor:
+                        units |= Abirim.objects.filter(employe=employe).filter(pk=item.birim.pk)
+                if dosya:
+                    for item in dosya:
+                        klasor |= Aklasor.objects.filter(birim__employe=employe).filter(pk=item.klasor.pk)
+                        units |= Abirim.objects.filter(employe=employe).filter(pk=item.klasor.birim.pk)
+                dosyaparametre = AdosyaParametre.objects.filter(value__contains=search)
+
             if dosyaparametre:
                 for item in dosyaparametre:
                     dosya |= Adosya.objects.filter(pk=int(item.dosya.pk))
@@ -675,8 +730,13 @@ def birimSearch(request):
         # birim arama alani
         elif request.POST.get('searchbirim'):
             # print('birim arama ')
+            units=Abirim.objects.none()
 
-            units = Abirim.objects.filter(pk=request.POST.get('searchbirim'))
+            if active != 'Personel':
+                units = Abirim.objects.filter(pk=request.POST.get('searchbirim'))
+            else:
+                units = Abirim.objects.filter(employe=Employe.objects.filter(user__last_name__icontains=request.user)).filter(pk=request.POST.get('searchbirim'))
+
             backdata = Abirim.objects.get(pk=request.POST.get('searchbirim')).pk
             backsearch = "birimArama"
             birimparametre = AbirimParametre.objects.filter(birim__id=int(request.POST.get('searchbirim')))
@@ -701,8 +761,13 @@ def birimSearch(request):
                             dosyadizi.append(beka)
 
             if not (klasor):
-                klasor = Aklasor.objects.filter(birim=Abirim.objects.get(pk=request.POST.get('searchbirim')))
-                dosya = Adosya.objects.filter(klasor__birim__pk=request.POST.get('searchbirim'))
+                if active != 'Personel':
+                    klasor = Aklasor.objects.filter(birim=Abirim.objects.get(pk=request.POST.get('searchbirim')))
+                    dosya = Adosya.objects.filter(klasor__birim__pk=request.POST.get('searchbirim'))
+                else:
+                    klasor = Aklasor.objects.filter(birim__employe=Employe.objects.filter(user=request.user)).filter(birim=Abirim.objects.get(pk=request.POST.get('searchbirim')))
+                    dosya = Adosya.objects.filter(klasor__birim__employe=Employe.objects.get(user=request.user)).filter(klasor__birim__pk=request.POST.get('searchbirim'))
+
 
         # klasör arama alani
 
@@ -724,14 +789,27 @@ def birimSearch(request):
                 query &= Q(startyear=int(start))
             if finish:
                 query &= Q(finishyear=int(finish))
-            klasor |= Aklasor.objects.filter(query)
+
+            if active != 'Personel':
+                klasor |= Aklasor.objects.filter(query)
+            else:
+                klasor |= Aklasor.objects.filter(birim__employe=Employe.objects.get(user=request.user)).filter(query)
+
 
             for item in klasor:
                 units |= Abirim.objects.filter(pk=item.birim.pk)
         else:
-            dosya = Adosya.objects.all()
-            units = Abirim.objects.all()
-            klasor = Aklasor.objects.all()
+            if active != 'Personel':
+                units = Abirim.objects.all()
+                klasor = Aklasor.objects.all()
+                dosya = Adosya.objects.all()
+            else:
+
+                employe=Employe.objects.get(user=request.user)
+                units |= Abirim.objects.filter(employe=employe)
+                klasor |= Aklasor.objects.filter(birim__employe=employe)
+                dosya = Adosya.objects.filter(klasor__birim__employe=employe)
+
 
     # if len(dosyadizi) == 0:
     #     for item in dosya.distinct():
@@ -754,6 +832,7 @@ def birimSearch(request):
                       'klasor_form': klasor_form,
                       'backdata': backdata,
                       'backsearch': backsearch,
+                      'employe':employe
 
                   })
 @login_required
@@ -888,8 +967,16 @@ def arsiv_dosyaEkle_full(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    active = general_methods.controlGroup(request)
 
-    units = Abirim.objects.all()
+
+    if active != 'Personel':
+        units = Abirim.objects.all()
+
+    else:
+        units=Abirim.objects.filter(employe=Employe.objects.get(user=request.user).pk)
+        employe = Employe.objects.get(user=request.user)
+
     unit_form = AbirimForm()
     klasor_form = AklasorForm()
 
@@ -935,6 +1022,7 @@ def arsiv_dosyaEkle_full(request):
         'units': units,
         'unit_form': unit_form,
         'klasor_form': klasor_form,
+        'employe':employe
     })
 
 

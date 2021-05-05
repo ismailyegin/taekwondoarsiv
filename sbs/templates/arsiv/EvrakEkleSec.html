@@ -320,9 +320,16 @@
                     </select>
                         <label for="id_birim">Birim:</label><select name="klasorupdatebirim" class="form-control"
                                                                     id="klasorupdateid_birim">
-                        {% for item in klasor_form.birim %}
-                            {{ item }}
-                        {% endfor %}
+                        {% if aktif == 'Personel' %}
+
+                            <option value="" selected>---------</option>
+                            <option value="{{ employe.birim.pk }}">{{ employe.birim.name }}</option>
+                        {% else %}
+                            {% for item in klasor_form.birim %}
+                                {{ item }}
+
+                            {% endfor %}
+                        {% endif %}
 
 
                     </select>

@@ -272,11 +272,16 @@
                                                                 style="width: 100%; " tabindex="-1"
                                                                 aria-hidden="true">
 
-                                                            {% for item in klasor_form.birim %}
+                                                                                    {% if aktif == 'Personel' %}
 
+                                                                <option value="" selected>---------</option>
+                                                                <option value="{{employe.birim.pk}}">{{ employe.birim.name }}</option>
+                                                            {% else %}
+                                                                {% for item in klasor_form.birim %}
                                                                 {{ item }}
 
                                                             {% endfor %}
+                                                            {% endif %}
 
 
                                                         </select></div>
@@ -324,13 +329,17 @@
                                                         <td><select name="klasorbirim" class="form-control"
                                                                     id="klasorbirim">
 
+                                                            {% if aktif == 'Personel' %}
 
-                                                            {% for item in klasor_form.birim %}
-
-
+                                                                <option value="" selected>---------</option>
+                                                                <option value="{{employe.birim.pk}}">{{ employe.birim.name }}</option>
+                                                            {% else %}
+                                                                {% for item in klasor_form.birim %}
                                                                 {{ item }}
 
                                                             {% endfor %}
+                                                            {% endif %}
+
 
 
                                                         </select></td>
