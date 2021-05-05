@@ -29,11 +29,6 @@ from sbs.models.Aklasor import Aklasor
 from sbs.models.CategoryItem import CategoryItem
 from sbs.services import general_methods
 
-
-
-
-
-
 @login_required
 def return_arsiv(request):
     perm = general_methods.control_access(request)
@@ -42,8 +37,6 @@ def return_arsiv(request):
         return redirect('accounts:login')
 
     return render(request, 'arsiv/arsiv.html')
-
-
 @login_required
 def arsiv_location_add(request):
     perm = general_methods.control_access(request)
@@ -60,8 +53,6 @@ def arsiv_location_add(request):
     categoryitem = CategoryItem.objects.filter(forWhichClazz='location')
     return render(request, 'arsiv/location.html',
                   {'category_item_form': category_item_form, 'categoryitem': categoryitem})
-
-
 @login_required
 def arsiv_location_update(request, pk):
     perm = general_methods.control_access(request)
@@ -201,8 +192,6 @@ def arsiv_birimListesi(request):
 
     return render(request, 'arsiv/BirimList.html', {'birimler': birimler,
                                                     'birim_form': birim_form})
-
-
 @login_required
 def parametredelete(request, pk):
     perm = general_methods.control_access(request)
@@ -330,7 +319,6 @@ def arsiv_klasorUpdate(request, pk):
                                                          'forward': ileri,
                                                          })
 
-
 def arsiv_dosyaEkle(request, pk):
     perm = general_methods.control_access(request)
     if not perm:
@@ -411,15 +399,12 @@ def arsiv_dosyaUpdate(request, pk):
                    'back': geri,
                    'forward': ileri,
                    })
-
-
 @login_required
 def arsiv_evrakEkle(request, pk):
     perm = general_methods.control_access(request)
     if not perm:
         logout(request)
         return redirect('accounts:login')
-
     form = AevrakForm()
     if request.method == 'POST':
         form = AevrakForm(request.POST, request.FILES)
@@ -436,8 +421,6 @@ def arsiv_evrakEkle(request, pk):
     return render(request, 'arsiv/EvrakEkle.html',
                   {'form': form, }
                   )
-
-
 @login_required
 def arsiv_evrakDelete(request, pk):
     perm = general_methods.control_access(request)
@@ -448,8 +431,6 @@ def arsiv_evrakDelete(request, pk):
     dosya = Adosya.objects.filter(evrak=evrak)[0]
     evrak.delete()
     return redirect('sbs:dosya-guncelle', dosya.pk)
-
-
 @login_required
 def arsiv_anasayfa(request):
     perm = general_methods.control_access(request)
@@ -775,8 +756,6 @@ def birimSearch(request):
                       'backsearch': backsearch,
 
                   })
-
-
 @login_required
 def zipfile(request, pk):
     perm = general_methods.control_access(request)
@@ -941,8 +920,6 @@ def arsiv_dosyaEkle_full(request):
                     dosyaParametre.save()
             dosya.save()
             return redirect('sbs:dosya-guncelle', dosya.pk)
-
-
         elif request.POST.get("dosya_id"):
             if Adosya.objects.filter(pk=int(request.POST.get("dosya_id"))):
                 dosya = Adosya.objects.get(pk=int(request.POST.get("dosya_id")))
@@ -958,7 +935,6 @@ def arsiv_dosyaEkle_full(request):
         'units': units,
         'unit_form': unit_form,
         'klasor_form': klasor_form,
-
     })
 
 
@@ -979,7 +955,6 @@ def ajax_klasor(request):
                     'data': beka,
                     'msg': 'Valid is  request'
                 })
-
     except:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
 
@@ -1002,7 +977,6 @@ def ajax_klasor_update(request):
                             'start': klasor.startyear,
                             'status': 'Success',
                             'msg': 'Valid is  request'
-
                         })
             else:
                 return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
@@ -1085,7 +1059,6 @@ def ajax_dosyaform(request):
         form = str(AdosyaForm(klasor.pk))
         return JsonResponse(
             {
-
                 'data': form,
                 'msg': 'Valid is  request'
             })
@@ -1111,8 +1084,6 @@ def ajax_dosyaform_update(request):
                 })
         else:
             return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
-
-
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
 
@@ -1175,14 +1146,6 @@ def ajax_birimUpdateParametreAdd(request):
                 'status': 'Success',
                 'msg': 'Valid is  request'
             })
-
-
-
-
-
-
-
-
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
 

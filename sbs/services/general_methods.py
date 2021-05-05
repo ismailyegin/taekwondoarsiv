@@ -12,6 +12,7 @@ from sbs.models.MenuArsiv import MenuArsiv
 from sbs.models.PreRegistration import PreRegistration
 from sbs.models.ReferenceCoach import ReferenceCoach
 from sbs.models.ReferenceReferee import ReferenceReferee
+from sbs.models.Employe import Employe
 
 
 def get_client_ip(request):
@@ -122,7 +123,7 @@ def control_access_judge(request):
             if request.resolver_match.url_name == perm.name:
                 is_exist = True
 
-        if group.name == "Admin" or group.name == "Hakem" or group.name == "Yonetim":
+        if group.name == "Admin" or group.name == "Hakem" or group.name == "Yonetim" or group.name =='Personel':
             is_exist = True
 
     return is_exist
@@ -139,7 +140,7 @@ def control_access(request):
             if request.resolver_match.url_name == perm.name:
                 is_exist = True
 
-        if group.name == "Admin" or group.name == "Yonetim" or group.name == "Arsiv":
+        if group.name == "Admin" or group.name == "Yonetim" or group.name == "Arsiv" or group.name == 'Personel':
             is_exist = True
 
     return is_exist
@@ -157,7 +158,7 @@ def control_access_klup(request):
             if request.resolver_match.url_name == perm.name:
                 is_exist = True
 
-        if group.name == "Admin" or group.name == "Hakem" or group.name == "Antrenor" or group.name == "Yonetim" :
+        if group.name == "Admin" or group.name == "Hakem" or group.name == "Antrenor" or group.name == "Yonetim" or group.name == 'Personel':
             is_exist = True
 
     return is_exist
@@ -210,6 +211,9 @@ def getProfileImage(request):
 
         elif current_user.groups.filter(name='KlupUye').exists():
             athlete = SportClubUser.objects.get(user=current_user)
+            person = Person.objects.get(id=athlete.person.id)
+        elif current_user.groups.filter(name='Personel').exists():
+            athlete = Employe.objects.get(user=current_user)
             person = Person.objects.get(id=athlete.person.id)
 
 

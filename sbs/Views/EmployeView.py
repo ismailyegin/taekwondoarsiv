@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from unicode_tr import unicode_tr
-
 from sbs.Forms.CommunicationForm import CommunicationForm
 from sbs.Forms.EmployeUnitForm import EmployeUnitForm
 from sbs.Forms.MaterialForm import MaterialForm
@@ -33,7 +32,7 @@ def return_employes(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    members = DirectoryMember.objects.none()
+    members = Employe.objects.none()
     user_form = UserSearchForm()
     if request.method == 'POST':
         user_form = UserSearchForm(request.POST)
@@ -83,7 +82,6 @@ def add_employe(request):
                           {'user_form': user_form, 'person_form': person_form,
                            'communication_form': communication_form, 'unit_form': unit_form
                            })
-
         tc = request.POST.get('tc')
         if Person.objects.filter(tc=tc) or ReferenceCoach.objects.exclude(status=ReferenceCoach.DENIED).filter(
                 tc=tc) or ReferenceReferee.objects.exclude(status=ReferenceReferee.DENIED).filter(
@@ -144,9 +142,7 @@ def add_employe(request):
             messages.success(request, 'Personel Başarıyla Kayıt Edilmiştir.')
 
             return redirect('sbs:birim-personel-duzenle', employe.pk)
-
         else:
-
             for x in user_form.errors.as_data():
                 messages.warning(request, user_form.errors[x][0])
 
@@ -154,8 +150,6 @@ def add_employe(request):
                   {'user_form': user_form, 'person_form': person_form,
                    'communication_form': communication_form, 'unit_form': unit_form
                    })
-
-
 @login_required
 def update_demploye(request, pk):
     perm = general_methods.control_access(request)
