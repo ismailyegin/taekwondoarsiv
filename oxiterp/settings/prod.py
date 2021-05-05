@@ -20,20 +20,20 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'admin_sbs',
+        'NAME': 'tekvandoarsiv2',
         'HOST': 'localhost',
         'PORT': '3306',
-        'USER': 'admin_sbs',
+        'USER': 'root',
         'PASSWORD': 'kobil2013'
     }
 }
 
 
-STATIC_ROOT = "C:/Bitnami/djangostack-2.2.12-0/apache2/htdocs/static/"
+STATIC_ROOT = "C:/Users/User/Bitnami Django Stack projects/TaekwondoArsiv/static"
 
 STAICFILES_DIR = [
 
-    "C:/Bitnami/djangostack-2.2.12-0/apache2/htdocs/static/"
+    "C:/Users/User/Bitnami Django Stack projects/TaekwondoArsiv/static"
 
 ]
 
