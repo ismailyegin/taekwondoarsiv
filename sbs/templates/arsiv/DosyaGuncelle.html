@@ -301,7 +301,7 @@
 
                             {% if evraklist %}
                                 <div class="embed-responsive embed-responsive-4by3">
-                                    <iframe class="embed-responsive-item" id="idpdf" src="/media/{{ evraklist |first }}"
+                                    <iframe class="embed-responsive-item" id="idpdf" src="/TaekwondoArsiv/media/{{ evraklist |first }}"
                                             allowfullscreen></iframe>
                                 </div>
                             {% endif %}
@@ -358,7 +358,7 @@
         function degeral(a) {
             if (say + a >= 0 && say + a < dizi.length) {
                 say += a;
-                $("#idpdf").attr("src", "/media/" + dizi[say].title);
+                $("#idpdf").attr("src", "/TaekwondoArsiv/media/" + dizi[say].title);
             }
             if (dizi.length != 0) {
                 $("#valueone").text(say + 1);
@@ -367,7 +367,7 @@
 
         $("#btndownload").click(function (e) {
             e.preventDefault();
-            window.location.href = '/media/' + dizi[say].title;
+            window.location.href = '/TaekwondoArsiv/media/' + dizi[say].title;
 
         });
 
