@@ -47,17 +47,25 @@
     {% endif %}
 
 
-    <section class="content-header">
-        <h1>
-            Üye Ekle
 
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Üye Ekle</a></li>
-
-        </ol>
-    </section>
     <section class="content">
+
+            <section class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>{{ aktif }}-
+                            Personel Ekle</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'sbs:birim-personelleri' %}">Personel  Listesi </a></li>
+                            {#              <li class="breadcrumb-item active">Advanced Form</li>#}
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+        </section>
 
         <form method="post" enctype="multipart/form-data" role="form">
             {% csrf_token %}

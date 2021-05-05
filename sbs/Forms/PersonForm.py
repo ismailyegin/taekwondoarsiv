@@ -6,16 +6,6 @@ from sbs.models import Person
 
 
 class PersonForm(ModelForm):
-    uyrukid = forms.ModelChoiceField(queryset=Nationnality.objects.all(),
-                                     to_field_name='name',
-                                     empty_label="Seçiniz",
-                                     label="Uyruk*",
-                                     initial=Nationnality.objects.filter(name="T.C.")[0] if Nationnality.objects.filter(name="T.C.") else None,
-                                     required=False,
-                                     widget=forms.Select(
-                                         attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                                'style': 'width: 100%; '}))
-
 
     class Meta:
         model = Person
@@ -31,7 +21,9 @@ class PersonForm(ModelForm):
             'meslek', 'kurum', 'is_unvani',
             'education', 'mezunokul',
             'nufus_ailesirano',
-            'nufus_sirano', 'nufus_ciltno')
+            'nufus_sirano',
+            'nufus_ciltno',
+            'uyrukid')
 
         labels = {'tc': 'T.C*.',
                   'gender': 'Cinsiyet*',
@@ -48,6 +40,7 @@ class PersonForm(ModelForm):
                   'meslek': 'Meslek',
                   'height': 'Boy',
                   'weight': 'Kilo',
+                  'uyrukid':'Uyruk',
 
                   }
 
@@ -97,6 +90,8 @@ class PersonForm(ModelForm):
             'education': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%;'}),
             'mezunokul': forms.TextInput(attrs={'class': 'form-control', "style": "text-transform:uppercase"}),
+            'uyrukid': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                             'style': 'width: 100%;','required': 'required'}),
 
         }
 

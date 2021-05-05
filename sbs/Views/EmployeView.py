@@ -1,42 +1,30 @@
+from builtins import print
+
+from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User, Group
-from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from sbs.Forms.CommunicationForm import CommunicationForm
-from sbs.Forms.DirectoryCommissionForm import DirectoryCommissionForm
-from sbs.Forms.DirectoryForm import DirectoryForm
-from sbs.Forms.DirectoryMemberRoleForm import DirectoryMemberRoleForm
-from sbs.Forms.DisabledCommunicationForm import DisabledCommunicationForm
-from sbs.Forms.DisabledDirectoryForm import DisabledDirectoryForm
-from sbs.Forms.DisabledPersonForm import DisabledPersonForm
-from sbs.Forms.DisabledSportClubUserForm import DisabledSportClubUserForm
-from sbs.Forms.DisabledUserForm import DisabledUserForm
-from sbs.Forms.UserForm import UserForm
-from sbs.Forms.PersonForm import PersonForm
-from sbs.Forms.UserSearchForm import UserSearchForm
-from sbs.models import Person, Communication
-from sbs.models.DirectoryCommission import DirectoryCommission
-from sbs.models.DirectoryMember import DirectoryMember
-from sbs.models.DirectoryMemberRole import DirectoryMemberRole
-from sbs.services import general_methods
-
-# from zeep import Client
-from sbs.models.PreRegistration import PreRegistration
-from sbs.models.ReferenceReferee import ReferenceReferee
-from sbs.models.ReferenceCoach import ReferenceCoach
-
-from sbs.models.Material import Material
-from sbs.Forms.MaterialForm import MaterialForm
-
 from unicode_tr import unicode_tr
 
-from sbs.models.Employe import Employe
-from sbs.models.Abirim import Abirim
+from sbs.Forms.CommunicationForm import CommunicationForm
 from sbs.Forms.EmployeUnitForm import EmployeUnitForm
+from sbs.Forms.MaterialForm import MaterialForm
+from sbs.Forms.PersonForm import PersonForm
+from sbs.Forms.UserForm import UserForm
+from sbs.Forms.UserSearchForm import UserSearchForm
+from sbs.models import Person, Communication
+from sbs.models.Abirim import Abirim
+from sbs.models.Employe import Employe
+from sbs.models.Material import Material
+# from zeep import Client
+from sbs.models.PreRegistration import PreRegistration
+from sbs.models.ReferenceCoach import ReferenceCoach
+from sbs.models.ReferenceReferee import ReferenceReferee
+from sbs.services import general_methods
+
 
 @login_required
 def return_employes(request):
@@ -54,7 +42,7 @@ def return_employes(request):
             lastName = unicode_tr(user_form.cleaned_data['last_name']).upper()
             email = user_form.cleaned_data.get('email')
             if not (firstName or lastName or email):
-                members = DirectoryMember.objects.all()
+                members = Employe.objects.all()
             else:
                 query = Q()
                 if lastName:
@@ -63,8 +51,9 @@ def return_employes(request):
                     query &= Q(user__first_name__icontains=firstName)
                 if email:
                     query &= Q(user__email__icontains=email)
-                members = DirectoryMember.objects.filter(query)
-    return render(request, 'yonetim/kurul-uyeleri.html', {'members': members, 'user_form': user_form})
+                members = Employe.objects.filter(query)
+    return render(request, 'personel/personelListesi.html', {'members': members, 'user_form': user_form})
+
 
 @login_required
 def add_employe(request):
@@ -76,7 +65,7 @@ def add_employe(request):
     user_form = UserForm()
     person_form = PersonForm()
     communication_form = CommunicationForm()
-    unit_form=EmployeUnitForm()
+    unit_form = EmployeUnitForm()
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         person_form = PersonForm(request.POST, request.FILES)
@@ -92,7 +81,7 @@ def add_employe(request):
             messages.warning(request, 'Mail adresi başka bir kullanici tarafından kullanilmaktadir.')
             return render(request, 'personel/personelEkle.html',
                           {'user_form': user_form, 'person_form': person_form,
-                           'communication_form': communication_form,'unit_form':unit_form
+                           'communication_form': communication_form, 'unit_form': unit_form
                            })
 
         tc = request.POST.get('tc')
@@ -102,7 +91,7 @@ def add_employe(request):
             messages.warning(request, 'Tc kimlik numarasi sistemde kayıtlıdır. ')
             return render(request, 'personel/personelEkle.html',
                           {'user_form': user_form, 'person_form': person_form,
-                           'communication_form': communication_form,'unit_form':unit_form
+                           'communication_form': communication_form, 'unit_form': unit_form
                            })
 
         name = request.POST.get('first_name')
@@ -123,7 +112,7 @@ def add_employe(request):
             user.first_name = unicode_tr(user_form.cleaned_data['first_name']).upper()
             user.last_name = unicode_tr(user_form.cleaned_data['last_name']).upper()
             user.email = user_form.cleaned_data['email']
-            group = Group.objects.get(name='Yonetim')
+            group = Group.objects.get(name='Personel')
             password = User.objects.make_random_password()
             user.set_password(password)
             user.save()
@@ -137,7 +126,7 @@ def add_employe(request):
 
             employe = Employe(user=user, person=person, communication=communication)
             print(request.POST.get('birim'))
-            employe.birim=Abirim.objects.get(pk=int(request.POST.get('birim')))
+            employe.birim = Abirim.objects.get(pk=int(request.POST.get('birim')))
             employe.save()
 
             # subject, from_email, to = 'Halter - Yönetim/Federasyon Bilgi Sistemi Kullanıcı Giriş Bilgileri', 'no-reply@twf.gov.tr', user.email
@@ -163,8 +152,8 @@ def add_employe(request):
 
     return render(request, 'personel/personelEkle.html',
                   {'user_form': user_form, 'person_form': person_form,
-                   'communication_form': communication_form,'unit_form':unit_form
-                  })
+                   'communication_form': communication_form, 'unit_form': unit_form
+                   })
 
 
 @login_required
@@ -184,8 +173,7 @@ def update_demploye(request, pk):
     user_form = UserForm(request.POST or None, instance=user)
     person_form = PersonForm(request.POST or None, request.FILES or None, instance=person)
     communication = Communication.objects.get(pk=member.communication.pk)
-    unit_form=EmployeUnitForm()
-
+    unit_form = EmployeUnitForm(request.POST or None, instance=member)
     if person.material:
         metarial = Material.objects.get(pk=member.person.material.pk)
     else:
@@ -208,8 +196,8 @@ def update_demploye(request, pk):
                 messages.warning(request, 'Mail adresi başka bir kullanici tarafından kullanilmaktadir.')
                 return render(request, 'personel/personelDuzenle.html',
                               {'user_form': user_form, 'communication_form': communication_form, 'member': member,
-                               'person_form': person_form, 'groups': groups,'metarial_form':metarial_form,
-                               'unit_form':unit_form
+                               'person_form': person_form, 'groups': groups, 'metarial_form': metarial_form,
+                               'unit_form': unit_form
                                })
         tc = request.POST.get('tc')
 
@@ -220,7 +208,7 @@ def update_demploye(request, pk):
                 messages.warning(request, 'Tc kimlik numarasi sistemde kayıtlıdır. ')
                 return render(request, 'personel/personelDuzenle.html',
                               {'user_form': user_form, 'communication_form': communication_form, 'member': member,
-                               'person_form': person_form, 'groups': groups,'metarial_form':metarial_form,
+                               'person_form': person_form, 'groups': groups, 'metarial_form': metarial_form,
                                'unit_form': unit_form
                                })
 
@@ -243,16 +231,38 @@ def update_demploye(request, pk):
             person_form.save()
             communication_form.save()
             metarial_form.save()
-            log = str(user.get_full_name()) + " Kurul uyesi guncellendi"
+            log = str(user.get_full_name()) + " Personel guncellendi"
             log = general_methods.logwrite(request, request.user, log)
-            messages.success(request, 'Kurul Üyesi Başarıyla Güncellendi')
+            messages.success(request, 'Personel Başarıyla Güncellendi')
             # return redirect('sbs:kurul-uyeleri')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz')
     return render(request, 'personel/personelDuzenle.html',
                   {'user_form': user_form, 'communication_form': communication_form, 'member': member,
-                   'person_form': person_form,  'groups': groups,'metarial_form':metarial_form,
+                   'person_form': person_form, 'groups': groups, 'metarial_form': metarial_form,
                    'unit_form': unit_form
 
                    })
 
+
+@login_required
+def delete_directory_member(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            obj = Employe.objects.get(pk=pk)
+
+            log = str(obj.user.get_full_name()) + " Personel uyesi silindi"
+            log = general_methods.logwrite(request, request.user, log)
+
+            obj.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except Employe.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})

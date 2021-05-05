@@ -73,17 +73,27 @@
     </div>
 
 
-    <section class="content-header">
-        <h1>
-            Üye Düzenle
 
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Üye Düzenle</a></li>
-
-        </ol>
-    </section>
     <section class="content">
+            <section class="content-header">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>{{ aktif }}-
+                            Personel Güncelle</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'sbs:birim-personelleri' %}">Personel  Listesi </a></li>
+                            {#              <li class="breadcrumb-item active">Advanced Form</li>#}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </section>
 
         <form method="post" enctype="multipart/form-data" role="form">
             {% csrf_token %}
@@ -306,6 +316,9 @@
                                             {{ communication_form.addressJop }}
                                         </div>
                                     </div>
+                                      <div class="card-footer">
+                                            <button class="btn btn-primary" type="submit">Kaydet</button>
+                                        </div>
                                 </div>
 
 
@@ -343,7 +356,6 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12">
-
                                         <div class="form-group">
                                             <label> {{ person_form.uyrukid.label }}</label>
                                             {{ person_form.uyrukid }}

@@ -2,6 +2,7 @@ from django.db import models
 from sbs.models.Document import Document
 from sbs.models.Penal import Penal
 from sbs.models.Material import Material
+from sbs.models.Nationnality import Nationnality
 
 from unicode_tr import unicode_tr
 
@@ -92,7 +93,7 @@ class Person(models.Model):
 
     # badminton database add festportal
 
-    uyrukid = models.CharField(max_length=10, blank=True, null=True)
+    uyrukid = models.ForeignKey(Nationnality, models.CASCADE, blank=True, null=True)
     nufus_ailesirano = models.CharField(max_length=20, blank=True, null=True)
     nufus_sirano = models.CharField(max_length=20, blank=True, null=True)
     nufus_ciltno = models.CharField(max_length=20, blank=True, null=True)

@@ -556,7 +556,8 @@ urlpatterns = [
 # personeller
     url(r'personel/birim-uyeleri/$', EmployeView.return_employes, name='birim-personelleri'),
     url(r'personel/birim-uyesi-ekle/$', EmployeView.add_employe, name='birim-personel-ekle'),
-    url(r'personel/birim-uyesi-duzenle/(?P<pk>\d+)$', EmployeView.update_demploye,
-        name='birim-personel-duzenle'),
+    url(r'personel/birim-uyesi-duzenle/(?P<pk>\d+)$', EmployeView.update_demploye,name='birim-personel-duzenle'),
+    url(r'personel/birim-uyeleri/sil/(?P<pk>\d+)$', EmployeView.delete_directory_member,name='personel-sil'),
+
 
 ]
