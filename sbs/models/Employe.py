@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from twisted.conch.insults.insults import modes
 
 from sbs.models.Person import Person
 from sbs.models.Communication import Communication

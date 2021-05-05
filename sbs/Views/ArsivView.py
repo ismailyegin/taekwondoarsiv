@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
-from reportlab.lib.rparsexml import filenames
 from unicode_tr import unicode_tr
 
 from sbs.Forms.AbirimForm import AbirimForm
@@ -28,7 +27,6 @@ from sbs.models.Aevrak import Aevrak
 from sbs.models.Aklasor import Aklasor
 from sbs.models.CategoryItem import CategoryItem
 from sbs.services import general_methods
-
 from sbs.models.Employe import Employe
 
 @login_required
@@ -656,7 +654,6 @@ def birimSearch(request):
     dosyadizi = []
     backdata = None
     backsearch = None
-
     employe=Employe.objects.none()
     if active == 'Personel':
         employe = Employe.objects.get(user=request.user)
@@ -968,6 +965,7 @@ def arsiv_dosyaEkle_full(request):
         logout(request)
         return redirect('accounts:login')
     active = general_methods.controlGroup(request)
+    employe=Employe.objects.none()
 
 
     if active != 'Personel':

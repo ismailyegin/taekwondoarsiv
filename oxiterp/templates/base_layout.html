@@ -10,10 +10,10 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% load static %}
     {% if aktif == "Arsiv" or aktif == 'Personel' %}
-        <link rel="shortcut icon" type="image/png" href="/demosbs/media/kobiltek.ico"/>
+        <link rel="shortcut icon" type="image/png" href="/TaekwondoArsiv/media/kobiltek.ico"/>
          <title>DİJİTAL ARSİV SİSTEMİ </title>
         {% else %}
-        <link rel="shortcut icon" type="image/png" href="/demosbs/media/kobiltek.ico"/>
+        <link rel="shortcut icon" type="image/png" href="/TaekwondoArsiv/media/kobiltek.ico"/>
          <title>SPOR BİLGİ SİSTEMİ </title>
     {% endif %}
 
@@ -222,7 +222,7 @@
                     {% if person.profileImage %}
 
                         <img alt="İmage" style="height: 30px; width: 30px;" class="rounded-circle"
-                             src="/demosbs/media/{{ person.profileImage }}">
+                             src="/TaekwondoArsiv/media/{{ person.profileImage }}">
 
                     {% else %}
                         <img alt="İmage" style="height: 30px; width: 30px;" class="rounded-circle"
@@ -235,7 +235,7 @@
                         {% if person.profileImage %}
 
                             <img alt="İmage" style="height: 100px; width: 100px;" class="rounded-circle"
-                                 src="/demosbs/media/{{ person.profileImage }}">
+                                 src="/TaekwondoArsiv/media/{{ person.profileImage }}">
 
                         {% else %}
                             <img alt="İmage" style="height: 100px; width: 100px;" class="rounded-circle"
