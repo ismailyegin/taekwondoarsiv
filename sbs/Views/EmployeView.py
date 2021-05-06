@@ -105,11 +105,11 @@ def add_employe(request):
         year = year.split('/')
 
         # client = Client('https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL')
-        # if not (client.service.TCKimlikNoDogrula(tc, name, surname, year[2])):
-        #     messages.warning(request, 'Tc kimlik numarasi ile isim  soyisim dogum yılı  bilgileri uyuşmamaktadır. ')
-        #     return render(request, 'yonetim/kurul-uyesi-ekle.html',
-        #                   {'user_form': user_form, 'person_form': person_form, 'communication_form': communication_form,
-        #                    'member_form': member_form})
+        #         # if not (client.service.TCKimlikNoDogrula(tc, name, surname, year[2])):
+        #         #     messages.warning(request, 'Tc kimlik numarasi ile isim  soyisim dogum yılı  bilgileri uyuşmamaktadır. ')
+        #         #     return render(request, 'yonetim/kurul-uyesi-ekle.html',
+        #         #                   {'user_form': user_form, 'person_form': person_form, 'communication_form': communication_form,
+        #         #                    'member_form': member_form})
 
         if user_form.is_valid() and person_form.is_valid() and communication_form.is_valid():
             user = User()
@@ -134,14 +134,6 @@ def add_employe(request):
             employe.birim = Abirim.objects.get(pk=int(request.POST.get('birim')))
             employe.save()
 
-            # subject, from_email, to = 'Halter - Yönetim/Federasyon Bilgi Sistemi Kullanıcı Giriş Bilgileri', 'no-reply@twf.gov.tr', user.email
-            # text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            # html_content = '<p> <strong>Site adresi: </strong> <a href="http://sbs.twf.gov.tr:81/"></a>sbs.twf.gov.tr:81</p>'
-            # html_content = html_content + '<p><strong>Kullanıcı Adı:  </strong>' + user.username + '</p>'
-            # html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
-            # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            # msg.attach_alternative(html_content, "text/html")
-            # msg.send()
 
             log = str(user.get_full_name()) + " Personel kaydedildi"
             log = general_methods.logwrite(request, request.user, log)

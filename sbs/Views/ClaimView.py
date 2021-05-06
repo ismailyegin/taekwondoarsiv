@@ -39,7 +39,7 @@ def return_claim(request):
         lastName = unicode_tr(request.POST.get('last_name')).upper()
 
         if not (status or importanceSort):
-            if active == 'Admin':
+            if active == 'Admin' or active == 'Arsiv':
                 destek = Claim.objects.all()
         else:
             query = Q()
@@ -52,7 +52,7 @@ def return_claim(request):
             if firstName:
                 query &= Q(user__first_name__icontains=firstName)
 
-            if active == 'Admin':
+            if active == 'Admin' or active == 'Arsiv':
                 destek = Claim.objects.filter(query)
 
     return render(request, 'Destek/DestekTalepListesi.html',

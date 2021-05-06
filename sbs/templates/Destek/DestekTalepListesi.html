@@ -271,14 +271,14 @@
         <div class="row">
             <section class="col-lg-12 ">
                 <div class="card-body">
-                    <div class="card card-primary">
+                    <div class="card card-primary card-outline">
                         <div class="card-header with-border">
                             <h3 class="card-title">Destek ve Talep</h3>
                         </div>
 
                         <div class="card-header with-border">
                             <div class="btn-group">
-                                {% if aktif == "Admin" or aktif == "Yonetim" %}
+                                {% if aktif == "Admin" or aktif == "Arsiv" %}
                                     <a href="{% url "sbs:destek-talep-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Destek Talep Ekle

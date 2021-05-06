@@ -122,30 +122,14 @@ def send_information(request, pk):
         fdk.save()
 
         html_content = ''
-        subject, from_email, to = 'Badminton Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-        html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+        subject, from_email, to = 'Taekwondo Bilgi Sistemi Kullanıcı Bilgileri', 'taekwondo@kobiltek.com', user.email
+        html_content = '<h2>TÜRKİYE TAEKWONDO FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-            fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/TaekwondoArsiv/newpassword?query=' + str(
+            fdk.uuid) + '">http://127.0.0.1:8000/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
         msg = EmailMultiAlternatives(subject, '', from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
-
-        # password = User.objects.make_random_password()
-        # obj.set_password(password)
-        # # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
-        # user = obj.save()
-        # html_content = ''
-        # subject, from_email, to = 'TWF Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@twf.gov.tr', obj.email
-        # text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-        # html_content = '<p> <strong>Site adresi:</strong> <a href="http://sbs.twf.gov.tr:81"></a>sbs.twf.gov.tr:81</p>'
-        # html_content = html_content + '<p><strong>Kullanıcı Adı:</strong>' + obj.username + '</p>'
-        # html_content = html_content + '<p><strong>Şifre:</strong>' + password + '</p>'
-        # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        # msg.attach_alternative(html_content, "text/html")
-        # msg.send()
-
-        # print(obj.is_active)
 
         log = str(user.get_full_name()) + " sifre gonderildi"
         log = general_methods.logwrite(request, request.user, log)
