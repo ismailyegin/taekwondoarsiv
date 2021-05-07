@@ -7,7 +7,7 @@ from sbs.models.Abirim import Abirim
 class AbirimForm(ModelForm):
     class Meta:
         model = Abirim
-        fields = '__all__'
+        fields = ('name',)
     def __init__(self, *args, **kwargs):
         super(AbirimForm,self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
