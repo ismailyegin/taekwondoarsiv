@@ -121,12 +121,13 @@ def send_information(request, pk):
         fdk = Forgot(user=user, status=False)
         fdk.save()
 
+
         html_content = ''
         subject, from_email, to = 'Taekwondo Bilgi Sistemi Kullanıcı Bilgileri', 'taekwondo@kobiltek.com', user.email
         html_content = '<h2>TÜRKİYE TAEKWONDO FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1/TaekwondoArsiv/newpassword?query=' + str(
-            fdk.uuid) + '">http://127.0.0.1/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://172.16.5.25/TaekwondoArsiv/newpassword?query=' + str(
+            fdk.uuid) + '">http://172.16.5.25/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
         msg = EmailMultiAlternatives(subject, '', from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
