@@ -262,8 +262,10 @@ def arsiv_klasorler(request):
         sirano = request.POST.get('sirano')
         location = request.POST.get('location')
         birim = request.POST.get('birim')
+        start = request.POST.get('startyear')
+        finish = request.POST.get('finishyear')
         active = general_methods.controlGroup(request)
-        if not (name or sirano or location or birim):
+        if not (name or sirano or location or birim or finish or start):
             if active != 'Personel':
                 klasor = Aklasor.objects.all()
             else:
@@ -278,6 +280,10 @@ def arsiv_klasorler(request):
                 query &= Q(location__pk=int(location))
             if birim:
                 query &= Q(birim__pk=int(birim))
+            if start:
+                query &= Q(startyear__gte=start)
+            if finish:
+                query &= Q(finishyear__lte=finish)
 
             if active != 'Personel':
                 klasor = Aklasor.objects.filter(query)
