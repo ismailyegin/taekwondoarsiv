@@ -14,6 +14,9 @@ class AklasorSearchForm(ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             visible.field.required = False
+
         self.fields['location'].queryset=CategoryItem.objects.filter(forWhichClazz="location")
+        self.fields['startyear'].widget.attrs['class'] = 'form-control  dateyear'
+        self.fields['finishyear'].widget.attrs['class'] = 'form-control  dateyear'
 
 

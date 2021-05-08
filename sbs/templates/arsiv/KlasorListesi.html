@@ -199,21 +199,21 @@
 
 
     <section class="content">
-     <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h3>Klasör Listesi </h3>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{% url 'sbs:evrak-anasayfa' %}">Arşiv Anasayfa </a></li>
-                            {#              <li class="breadcrumb-item active">Advanced Form</li>#}
-                        </ol>
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>Klasör Listesi </h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'sbs:evrak-anasayfa' %}">Arşiv Anasayfa </a></li>
+                        {#              <li class="breadcrumb-item active">Advanced Form</li>#}
+                    </ol>
                 </div>
             </div>
+        </div>
 
- <div class="row">
+        <div class="row">
             <div class="col-lg-12 ">
                 <div class="card-body">
                     <div class="card card-primary">
@@ -223,33 +223,45 @@
                         <form method="post" role="form">
                             <div class="card-body">
                                 {% csrf_token %}
-<div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label> {{ klasor_form.name.label }}</label>
-                                        {{ klasor_form.name }}
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.name.label }}</label>
+                                            {{ klasor_form.name }}
+                                        </div>
                                     </div>
-                                </div>
-                                  <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label> {{ klasor_form.sirano.label }}</label>
-                                        {{ klasor_form.sirano }}
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.sirano.label }}</label>
+                                            {{ klasor_form.sirano }}
+                                        </div>
                                     </div>
-                                </div>
-                                  <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label> {{ klasor_form.location.label }}</label>
-                                        {{ klasor_form.location }}
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.location.label }}</label>
+                                            {{ klasor_form.location }}
+                                        </div>
                                     </div>
-                                </div>
-                                  <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label> {{ klasor_form.birim.label }}</label>
-                                        {{ klasor_form.birim }}
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.birim.label }}</label>
+                                            {{ klasor_form.birim }}
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.startyear.label }}</label>
+                                            {{ klasor_form.startyear }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label> {{ klasor_form.finishyear.label }}</label>
+                                            {{ klasor_form.finishyear }}
+                                        </div>
+                                    </div>
 
-</div>
+                                </div>
 
                             </div>
                             <!-- /.card-body -->
@@ -273,14 +285,14 @@
                         <div class="card-header with-border">
                             <h3 class="card-title">Klasörler</h3>
                         </div>
-                    <div class="card-header with-border">
+                        <div class="card-header with-border">
                             <div class="btn-group">
-{#                                {% if user.groups.all.0.name == 'Yonetim' or user.groups.all.0.name == 'Admin' %}#}
-                                    <a href="{% url "sbs:klasor-ekle" %}"
-                                       type="button" class="btn btn-success"><i
-                                            class="fa fa-edit"></i> Yeni Klasör Ekle
-                                    </a>
-{#                                {% endif %}#}
+                                {#                                {% if user.groups.all.0.name == 'Yonetim' or user.groups.all.0.name == 'Admin' %}#}
+                                <a href="{% url "sbs:klasor-ekle" %}"
+                                   type="button" class="btn btn-success"><i
+                                        class="fa fa-edit"></i> Yeni Klasör Ekle
+                                </a>
+                                {#                                {% endif %}#}
                             </div>
 
                         </div>
@@ -301,18 +313,18 @@
                                     {% for item in klasor %}
                                         <tr>
                                             <td>{{ forloop.counter }} </td>
-                                            <td>{{ item.name}} </td>
-                                             <td>{{ item.sirano}} </td>
-                                             <td>{{ item.location}} </td>
-                                             <td>{{ item.birim}} </td>
+                                            <td>{{ item.name }} </td>
+                                            <td>{{ item.sirano }} </td>
+                                            <td>{{ item.location }} </td>
+                                            <td>{{ item.birim }} </td>
 
 
-                                        <td>
-                                             <a href="{% url "sbs:klasor-guncelle"  item.pk%}"
-                                       type="button" class="btn btn-success"><i
-                                            class="fa fa-edit"></i> İncele
-                                    </a>
-                                        </td>
+                                            <td>
+                                                <a href="{% url "sbs:klasor-guncelle"  item.pk %}"
+                                                   type="button" class="btn btn-success"><i
+                                                        class="fa fa-edit"></i> İncele
+                                                </a>
+                                            </td>
 
                                             {#                                            <td>#}
                                             {#                                                <div class="btn-group">#}
@@ -331,7 +343,6 @@
 
                                     {% endfor %}
                                 {% endif %}
-
 
 
                             </table>
@@ -353,7 +364,7 @@
     <script>
         $(function () {
             $('#kullanicilar').DataTable({
-                   dom: 'Bfrtip',
+                dom: 'Bfrtip',
 
                 language: {
                     buttons: {
@@ -405,7 +416,7 @@
                         titleAttr: 'Excel Kaydet'
                     },
                     {
-                        text:'Json',
+                        text: 'Json',
                         action: function (e, dt, button, config) {
                             var data = dt.buttons.exportData();
 
@@ -432,103 +443,103 @@
         })
     </script>
 
-{#    <script>#}
-{#        function activeUser(id) {#}
-{##}
-{#            console.log(id);#}
-{#            var html = ''#}
-{#            $("#modal-active").on("shown.bs.modal", function (e) {#}
-{#                $("#btn-conf1").click(function () {#}
-{#                    $.ajax({#}
-{#                        url: "{% url "sbs:kullanici-aktifet" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),#}
-{#                        type: "POST",#}
-{#                        data: {#}
-{#                            'csrfmiddlewaretoken': "{{  csrf_token  }}",#}
-{#                            isActive: 'False'#}
-{#                        },#}
-{#                        success: function (result) {#}
-{##}
-{#                            html = 'Kullanıcı Durumu Değiştirildi';#}
-{#                            debugger;#}
-{#                            $(".successModal").html(html);#}
-{#                            $('#modal-success').on("shown.bs.modal", function (e) {#}
-{#                                $(".btn-ok").click(function () {#}
-{##}
-{#                                    window.location.replace("{% url "sbs:kullanicilar" %}");#}
-{##}
-{#                                });#}
-{##}
-{#                            }).modal('show');#}
-{##}
-{##}
-{#                            console.log(result.status)#}
-{#                        }#}
-{#                    });#}
-{#                });#}
-{#            }).modal('show');#}
-{#            $('#btn-close1').click(function () {#}
-{#                $('#modal-active').modal('hide');#}
-{#            });#}
-{##}
-{#        }#}
-{##}
-{#        function sendInform(id) {#}
-{#            debugger;#}
-{#            console.log(id);#}
-{#            var html = ''#}
-{#            $("#modal-mail").on("shown.bs.modal", function (e) {#}
-{#                $("#btn-conf12").click(function () {#}
-{#                        $.ajax({#}
-{#                            url: "{% url "sbs:kullanici-bilgi-gonder" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),#}
-{#                            type: "POST",#}
-{#                            data: {#}
-{#                                'csrfmiddlewaretoken': "{{  csrf_token  }}",#}
-{##}
-{#                            },#}
-{#                            success: function (result) {#}
-{##}
-{#                                if (result.status == 'Fail') {#}
-{#                                    html = result.msg;#}
-{#                                    debugger;#}
-{#                                    $(".successModalD").html(html);#}
-{#                                    $('#modal-success-danger').on("shown.bs.modal", function (e) {#}
-{#                                        $(".btn-ok").click(function () {#}
-{##}
-{#                                            window.location.replace("{% url "sbs:kullanicilar" %}");#}
-{##}
-{#                                        });#}
-{#                                    }).modal('show');#}
-{##}
-{##}
-{#                                } else {#}
-{#                                    html = result.msg;#}
-{#                                    debugger;#}
-{#                                    $(".successModal").html(html);#}
-{#                                    $('#modal-success').on("shown.bs.modal", function (e) {#}
-{#                                        $(".btn-ok").click(function () {#}
-{##}
-{#                                            window.location.replace("{% url "sbs:kullanicilar" %}");#}
-{##}
-{#                                        });#}
-{#                                    }).modal('show');#}
-{##}
-{##}
-{#                                }#}
-{##}
-{##}
-{#                                console.log(result.status)#}
-{#                            }#}
-{#                        });#}
-{#                    }#}
-{#                )#}
-{#                ;#}
-{#            }).modal('show');#}
-{#            $('#btn-close2').click(function () {#}
-{#                $('#modal-mail').modal('hide');#}
-{#            });#}
-{##}
-{#        }#}
-{##}
-{#    </script>#}
+    {#    <script>#}
+    {#        function activeUser(id) {#}
+    {##}
+    {#            console.log(id);#}
+    {#            var html = ''#}
+    {#            $("#modal-active").on("shown.bs.modal", function (e) {#}
+    {#                $("#btn-conf1").click(function () {#}
+    {#                    $.ajax({#}
+    {#                        url: "{% url "sbs:kullanici-aktifet" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),#}
+    {#                        type: "POST",#}
+    {#                        data: {#}
+    {#                            'csrfmiddlewaretoken': "{{  csrf_token  }}",#}
+    {#                            isActive: 'False'#}
+    {#                        },#}
+    {#                        success: function (result) {#}
+    {##}
+    {#                            html = 'Kullanıcı Durumu Değiştirildi';#}
+    {#                            debugger;#}
+    {#                            $(".successModal").html(html);#}
+    {#                            $('#modal-success').on("shown.bs.modal", function (e) {#}
+    {#                                $(".btn-ok").click(function () {#}
+    {##}
+    {#                                    window.location.replace("{% url "sbs:kullanicilar" %}");#}
+    {##}
+    {#                                });#}
+    {##}
+    {#                            }).modal('show');#}
+    {##}
+    {##}
+    {#                            console.log(result.status)#}
+    {#                        }#}
+    {#                    });#}
+    {#                });#}
+    {#            }).modal('show');#}
+    {#            $('#btn-close1').click(function () {#}
+    {#                $('#modal-active').modal('hide');#}
+    {#            });#}
+    {##}
+    {#        }#}
+    {##}
+    {#        function sendInform(id) {#}
+    {#            debugger;#}
+    {#            console.log(id);#}
+    {#            var html = ''#}
+    {#            $("#modal-mail").on("shown.bs.modal", function (e) {#}
+    {#                $("#btn-conf12").click(function () {#}
+    {#                        $.ajax({#}
+    {#                            url: "{% url "sbs:kullanici-bilgi-gonder" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),#}
+    {#                            type: "POST",#}
+    {#                            data: {#}
+    {#                                'csrfmiddlewaretoken': "{{  csrf_token  }}",#}
+    {##}
+    {#                            },#}
+    {#                            success: function (result) {#}
+    {##}
+    {#                                if (result.status == 'Fail') {#}
+    {#                                    html = result.msg;#}
+    {#                                    debugger;#}
+    {#                                    $(".successModalD").html(html);#}
+    {#                                    $('#modal-success-danger').on("shown.bs.modal", function (e) {#}
+    {#                                        $(".btn-ok").click(function () {#}
+    {##}
+    {#                                            window.location.replace("{% url "sbs:kullanicilar" %}");#}
+    {##}
+    {#                                        });#}
+    {#                                    }).modal('show');#}
+    {##}
+    {##}
+    {#                                } else {#}
+    {#                                    html = result.msg;#}
+    {#                                    debugger;#}
+    {#                                    $(".successModal").html(html);#}
+    {#                                    $('#modal-success').on("shown.bs.modal", function (e) {#}
+    {#                                        $(".btn-ok").click(function () {#}
+    {##}
+    {#                                            window.location.replace("{% url "sbs:kullanicilar" %}");#}
+    {##}
+    {#                                        });#}
+    {#                                    }).modal('show');#}
+    {##}
+    {##}
+    {#                                }#}
+    {##}
+    {##}
+    {#                                console.log(result.status)#}
+    {#                            }#}
+    {#                        });#}
+    {#                    }#}
+    {#                )#}
+    {#                ;#}
+    {#            }).modal('show');#}
+    {#            $('#btn-close2').click(function () {#}
+    {#                $('#modal-mail').modal('hide');#}
+    {#            });#}
+    {##}
+    {#        }#}
+    {##}
+    {#    </script>#}
 {% endblock %}
 
