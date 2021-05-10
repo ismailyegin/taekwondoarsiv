@@ -721,7 +721,8 @@ def birimSearch(request):
                         'pk': item.dosya.pk,
                         'sirano': item.dosya.sirano,
                         'parametre': search + '/' + item.parametre.title,
-                        'klasor_id': item.dosya.klasor.pk
+                        'klasor_id': item.dosya.klasor.pk,
+                        'parametre':item.parametre.title
                     }
                     dosyadizi.append(beka)
         # dosya arama alani
@@ -801,6 +802,7 @@ def birimSearch(request):
 
             for item in klasor:
                 units |= Abirim.objects.filter(pk=item.birim.pk)
+                #seçim olmazsa hepsini getir
         else:
             if active != 'Personel':
                 units = Abirim.objects.all()
@@ -835,7 +837,9 @@ def birimSearch(request):
                       'klasor_form': klasor_form,
                       'backdata': backdata,
                       'backsearch': backsearch,
-                      'employe':employe
+                      'employe':employe,
+                      'dosyadizi':dosyadizi,
+
 
                   })
 @login_required
