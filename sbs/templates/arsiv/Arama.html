@@ -479,7 +479,8 @@
                                                                                             {% if dos.klasor_id == kla.pk %}
                                                                                                 <tr>
                                                                                                     <td>
-                                                                                                        {{ dos.sirano }} ({{ dos.parametre }})
+                                                                                                       <b> {{ dos.sirano }}({{ dos.parametre }})</b>
+                                                                                                        <span id="dosya-{{ dos.pk }}"></span>
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         <a href="{% url 'sbs:dosya-guncelle' dos.pk %}"
@@ -548,6 +549,11 @@
 
     <script>
         $(function () {
+
+            {% for item in dosyaX %}
+
+                $("#dosya-{{ item.pk }}").text($("#dosya-{{ item.pk }}").text() + "({{item.title }} : "+ "{{ item.value }})");
+            {% endfor %}
 
             {% if backsearch %}
 

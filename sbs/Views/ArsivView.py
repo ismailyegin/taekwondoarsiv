@@ -658,6 +658,7 @@ def birimSearch(request):
     klasor_form = AklasorSearchForm()
 
     dosyadizi = []
+    dosyaX=[]
     backdata = None
     backsearch = None
     employe=Employe.objects.none()
@@ -722,9 +723,25 @@ def birimSearch(request):
                         'sirano': item.dosya.sirano,
                         'parametre': search + '/' + item.parametre.title,
                         'klasor_id': item.dosya.klasor.pk,
-                        'parametre':item.parametre.title
-                    }
+                        'parametre':item.parametre.title,
+                        'birim':item.parametre.birim.pk
+                          }
                     dosyadizi.append(beka)
+
+            if dosya:
+                test=[]
+                for item in dosya:
+                    test.append(item.pk)
+
+                for item in AdosyaParametre.objects.filter(dosya__in=test):
+                    beka = {
+                        'pk': item.dosya.pk,
+                        'sirano': item.dosya.sirano,
+                        'birim':item.parametre.birim.pk,
+                        'value':item.value,
+                        'title':item.parametre.title,
+                          }
+                    dosyaX.append(beka)
         # dosya arama alani
         # if request.POST.get('searchdosya'):
         #     dosya |=Adosya.objects.filter(sirano=request.POST.get('searchdosya'))
@@ -839,6 +856,7 @@ def birimSearch(request):
                       'backsearch': backsearch,
                       'employe':employe,
                       'dosyadizi':dosyadizi,
+                      'dosyaX':dosyaX
 
 
                   })
