@@ -650,6 +650,7 @@ def arsiv_dosyalar(request):
                                                        })
 
 
+@login_required
 def birimSearch(request):
     active = general_methods.controlGroup(request)
     dosya = Adosya.objects.none()
