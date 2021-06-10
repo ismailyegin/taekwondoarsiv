@@ -376,8 +376,11 @@ def arsiv_dosyaUpdate(request, pk):
     files = Aevrak.objects.filter(adosya=dosya)
     evraklist = []
     for item in files:
+        print(item.pk)
         # print(item.file.name)
         if item.file.name.split(".")[len(item.file.name.split(".")) - 1] == "pdf":
+            item.file.name=item.file.name.split('"','')
+            item.save()
             evraklist.append(item)
     if request.method == 'POST':
         if request.FILES.get('file'):
